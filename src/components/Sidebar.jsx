@@ -12,7 +12,6 @@ import {
   CalendarIcon,
   ClipboardDocumentIcon,
   BellIcon,
-  CreditCardIcon,
   PowerIcon,
   StarIcon,
 } from "@heroicons/react/24/solid";

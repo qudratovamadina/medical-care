@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import { Card, CardBody, Typography, Chip } from "@material-tailwind/react";
-import { TopNavbar } from "../components/TopNavbar";
 import { getNotificationsByCurrentUserAPI } from "../api/patient";
 import { useAuth } from "../provider/AuthProvider";
 import { useNotifications } from "../provider/NotificationProvider";
