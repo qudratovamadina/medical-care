@@ -30,16 +30,14 @@ const ROLE_OPTIONS = [
 ];
 
 const SPECIALTY_OPTIONS = [
+  { value: "gynecologist", label: "Gynecologist" },
+  { value: "uzist", label: "Uzist" },
+  { value: "medsestra", label: "Medsestra" },
   { value: "cardiology", label: "Cardiology" },
   { value: "dermatology", label: "Dermatology" },
   { value: "neurology", label: "Neurology" },
   { value: "pediatrics", label: "Pediatrics" },
   { value: "general", label: "General" },
-];
-
-const STATUS_OPTIONS = [
-  { value: "online", label: "Online" },
-  { value: "offline", label: "Offline" },
 ];
 
 export function Signup() {

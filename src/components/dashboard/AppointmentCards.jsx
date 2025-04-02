@@ -38,7 +38,7 @@ const AppointmentCards = ({ userId, role }) => {
   if (!appointments.length) return <p>No appointments available.</p>;
 
   return (
-    <div className="max-w-dvw flex gap-4 overflow-hidden overflow-x-scroll py-4 lg:h-1/4">
+    <div className="max-w-dvw flex h-fit gap-4 overflow-hidden overflow-x-scroll py-4">
       {appointments.map((appointment, index) => (
         <AppointmentCard
           key={index}

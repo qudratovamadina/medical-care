@@ -114,8 +114,13 @@ export const updateUserAPI = async (updatedUserData) => {
     const { data, error } = await supabase.auth.updateUser({
       data: {
         name: updatedUserData.name,
-        profile_img: updatedUserData.profileImg,
+        role: updatedUserData.role,
+        email: updatedUserData.email,
+        phone: updatedUserData.phone,
+        address: updatedUserData.address,
         specialty: updatedUserData.specialty,
+        dateOfBirth: updatedUserData.dateOfBirth,
+        profile_img: updatedUserData.profile_img,
         status: updatedUserData.status,
       },
     });

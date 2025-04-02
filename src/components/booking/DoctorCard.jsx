@@ -21,11 +21,11 @@ export function DoctorCard({
 }) {
   return (
     <Card className="lg:w-64">
-      <CardHeader floated={false} className="h-[80%] shadow-sm">
+      <CardHeader floated={false} className="h-[80%] shadow-sm lg:max-h-48">
         <img
           src={profileIMG || defaultIMG}
           alt={`${name}'s profile`}
-          className="h-full w-full object-cover"
+          className="h-full w-full object-cover object-top"
         />
       </CardHeader>
       <CardBody className="py-2 text-center">
