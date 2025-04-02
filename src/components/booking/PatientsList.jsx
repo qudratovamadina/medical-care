@@ -18,17 +18,20 @@ import { useAuth } from "../../provider/AuthProvider";
 import { patientIMG } from "../utils/constants";
 import { getAppointmentsByDoctorIdAPI } from "../../api/doctor";
 import { HandleBookingModal } from "../utils/HandleBookingModal";
+import ConsultationForm from "../consultation/ConsultationForm";
 
 const TABS = ["all", "confirmed", "pending", "completed", "canceled"];
 const TABLE_HEAD = [
+  "#",
   "Name",
   "Email",
-  "Phone Number", // Added phone number column
+  "Phone Number",
   "Date & Time",
   "Status",
   "Payment Status",
   "",
 ];
+
 const ITEMS_PER_PAGE = 10;
 
 export function PatientsList() {
@@ -38,6 +41,7 @@ export function PatientsList() {
   const [activeTab, setActiveTab] = useState("all");
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
+  const [selectedAppointment, setSelectedAppointment] = useState(null);
 
   useEffect(() => {
     const fetchAppointments = async () => {
@@ -65,6 +69,29 @@ export function PatientsList() {
 
   return (
     <Card className="h-full w-full">
+      {selectedAppointment && (
+        <div className="fixed right-0 top-0 z-50 h-full w-full max-w-md overflow-y-auto bg-white p-6 shadow-2xl">
+          <div className="mb-4 flex items-center justify-between">
+            <h2 className="text-lg font-semibold">Add Consultation</h2>
+            <Button
+              variant="text"
+              onClick={() => setSelectedAppointment(null)}
+              className="text-red-500"
+            >
+              Close
+            </Button>
+          </div>
+          <ConsultationForm
+            appointmentId={selectedAppointment.id}
+            doctorId={selectedAppointment.doctor_id}
+            patientId={selectedAppointment.patient_id}
+            onSubmit={() => {
+              setSelectedAppointment(null);
+              // Optional: show success toast or reload appointments
+            }}
+          />
+        </div>
+      )}
       <CardHeader
         floated={false}
         shadow={false}
@@ -117,11 +144,12 @@ export function PatientsList() {
             </tr>
           </thead>
           <tbody>
-            {filteredAppointments.map((appointment) => (
+            {filteredAppointments.map((appointment, index) => (
               <AppointmentRow
                 key={appointment.id}
                 appointment={appointment}
                 doctorName={user.user_metadata.name}
+                lineNumber={(currentPage - 1) * ITEMS_PER_PAGE + index + 1}
               />
             ))}
           </tbody>
@@ -154,7 +182,7 @@ export function PatientsList() {
   );
 }
 
-const AppointmentRow = ({ appointment, doctorName }) => {
+const AppointmentRow = ({ appointment, doctorName, onSelect, lineNumber }) => {
   const {
     id,
     profile_img,
@@ -168,7 +196,13 @@ const AppointmentRow = ({ appointment, doctorName }) => {
   } = appointment;
 
   return (
-    <tr>
+    <tr
+      onClick={onSelect}
+      className="cursor-pointer transition-colors hover:bg-blue-gray-50"
+    >
+      <td className="border-b border-blue-gray-50 p-4 font-medium text-blue-gray-800">
+        {lineNumber}
+      </td>
       <td className="flex items-center gap-3 border-b border-blue-gray-50 p-4">
         <Avatar src={profile_img || patientIMG} alt={name} size="sm" />
         <Typography variant="small" color="blue-gray" className="font-normal">

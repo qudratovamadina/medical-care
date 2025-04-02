@@ -18,11 +18,15 @@ import LandingPage from "./pages/LandingPage";
 import { TopNavbar } from "./components/TopNavbar";
 import { useState } from "react";
 import BookDoctors from "./pages/BookDoctors";
+import ConsultationsList from "./pages/ConsultationsList";
+import SupportChatWidget from "./components/Support";
+import DoctorFeedbackList from "./components/booking/DoctorFeedbackList";
 
 const App = () => {
   return (
     <AuthProvider>
       <NotificationProvider>
+        <SupportChatWidget />
         <Router>
           <Routes>
             <Route path="/signup" element={<Signup />} />
@@ -76,7 +80,9 @@ const dashboardRoutes = [
   { path: "book-appointment", component: BookAppointments },
   { path: "appointments", component: MyAppointments },
   { path: "notifications", component: Notifications },
+  { path: "consultations", component: ConsultationsList },
   { path: "profile", component: Profile },
+  { path: "feedbacks", component: DoctorFeedbackList },
 ];
 
 export default App;

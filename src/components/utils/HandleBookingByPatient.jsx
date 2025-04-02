@@ -13,23 +13,27 @@ import {
 import { XMarkIcon } from "@heroicons/react/24/outline";
 import { PlusIcon } from "lucide-react";
 import { createNotificationAPI } from "../../api/patient";
+import DoctorFeedbackForm from "../booking/DoctorFeedbackForm";
 
 export function HandleBookingByPatient({
   patientName,
   doctorId,
+  doctorName,
+  appointmentId,
+  patientId,
   dateTime,
   status,
 }) {
   const [open, setOpen] = useState(false);
   const [loading, setLoading] = useState(false);
   const [selectedStatus, setSelectedStatus] = useState(status);
+  const [feedbackOpen, setFeedbackOpen] = useState(false);
 
   const handleOpen = () => setOpen(!open);
 
   const handleUpdate = async () => {
     setLoading(true);
     try {
-      // Notify doctor about the update
       await createNotificationAPI(
         doctorId,
         `${patientName} updated their appointment status.`,
@@ -37,6 +41,10 @@ export function HandleBookingByPatient({
       );
 
       setOpen(false);
+
+      if (selectedStatus === "completed") {
+        setFeedbackOpen(true);
+      }
     } catch (error) {
       console.error("Error updating appointment:", error);
     } finally {
@@ -56,6 +64,7 @@ export function HandleBookingByPatient({
         <PlusIcon strokeWidth={3} className="h-4 w-4" />
         Manage Booking
       </Button>
+
       <Dialog size="sm" open={open} handler={handleOpen} className="p-4">
         <DialogHeader className="relative m-0 block">
           <Typography variant="h4" color="blue-gray">
@@ -84,7 +93,7 @@ export function HandleBookingByPatient({
             label="Appointment Status"
             value={selectedStatus}
             onChange={(value) => setSelectedStatus(value)}
-            disabled={status === "completed"} // Prevents unnecessary updates
+            disabled={status === "completed"}
           >
             <Option value="completed">Completed</Option>
           </Select>
@@ -103,6 +112,24 @@ export function HandleBookingByPatient({
           </Button>
         </DialogFooter>
       </Dialog>
+
+      {feedbackOpen && (
+        <Dialog
+          open={feedbackOpen}
+          handler={() => setFeedbackOpen(false)}
+          size="sm"
+        >
+          <DialogHeader>Feedback for Dr. {doctorName}</DialogHeader>
+          <DialogBody>
+            <DoctorFeedbackForm
+              appointmentId={appointmentId}
+              doctorId={doctorId}
+              patientId={patientId}
+              onSubmit={() => setFeedbackOpen(false)}
+            />
+          </DialogBody>
+        </Dialog>
+      )}
     </>
   );
 }

@@ -14,12 +14,14 @@ import {
   BellIcon,
   CreditCardIcon,
   PowerIcon,
+  StarIcon,
 } from "@heroicons/react/24/solid";
 import { NavLink, useLocation, useNavigate } from "react-router-dom";
 import { useAuth } from "../provider/AuthProvider";
 import { signOutAPI } from "../api/auth";
 import { User2Icon } from "lucide-react";
 import { useNotifications } from "../provider/NotificationProvider";
+import { PaperClipIcon } from "@heroicons/react/24/outline";
 
 function Sidebar({ isOpen, toggleSidebar }) {
   const location = useLocation();
@@ -72,12 +74,22 @@ function Sidebar({ isOpen, toggleSidebar }) {
         />
       ),
     },
+    {
+      to: "/consultations",
+      label: "Consultations",
+      icon: <PaperClipIcon className="h-8 w-8" />,
+    },
     ...(role === "doctor"
       ? [
           {
             to: "/profile",
             label: "Profile",
             icon: <User2Icon className="h-8 w-8" />,
+          },
+          {
+            to: "/feedbacks",
+            label: "Feedbacks",
+            icon: <StarIcon className="h-8 w-8" />,
           },
         ]
       : []),

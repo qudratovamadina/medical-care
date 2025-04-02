@@ -4,6 +4,8 @@ import AppointmentCards from "../components/dashboard/AppointmentCards";
 import { useAuth } from "../provider/AuthProvider";
 import { getAppointmentsByPatientIdAPI } from "../api/patient";
 import { getAppointmentsByDoctorIdAPI } from "../api/doctor";
+import { Button } from "@material-tailwind/react";
+import ConsultationForm from "../components/consultation/ConsultationForm";
 
 const UserDashboard = () => {
   const { user, role } = useAuth();
@@ -48,6 +50,7 @@ const Banner = () => (
 const AppointmentsTable = ({ userId, role }) => {
   const [appointments, setAppointments] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [selectedAppointment, setSelectedAppointment] = useState(null);
 
   useEffect(() => {
     const fetchAppointments = async () => {
@@ -82,6 +85,29 @@ const AppointmentsTable = ({ userId, role }) => {
 
   return (
     <div className="max-h-2/4 flex h-2/4 flex-col gap-4 overflow-y-auto">
+      {selectedAppointment && (
+        <div className="fixed right-0 top-0 z-50 h-full w-full max-w-md overflow-y-auto bg-white p-6 shadow-2xl">
+          <div className="mb-4 flex items-center justify-between">
+            <h2 className="text-lg font-semibold">Add Consultation</h2>
+            <Button
+              variant="text"
+              onClick={() => setSelectedAppointment(null)}
+              className="text-red-500"
+            >
+              Close
+            </Button>
+          </div>
+          <ConsultationForm
+            appointmentId={selectedAppointment.id}
+            doctorId={selectedAppointment.doctor_id}
+            patientId={selectedAppointment.patient_id}
+            onSubmit={() => {
+              setSelectedAppointment(null);
+              // Optional: show success toast or reload appointments
+            }}
+          />
+        </div>
+      )}
       <h3 className="text-xl font-medium">Appointments</h3>
       <table className="w-full table-auto border-collapse border border-gray-300">
         <thead>
@@ -106,7 +132,11 @@ const AppointmentsTable = ({ userId, role }) => {
         </thead>
         <tbody>
           {appointments.map((appointment) => (
-            <tr key={appointment.id} className="hover:bg-gray-50">
+            <tr
+              key={appointment.id}
+              className="cursor-pointer hover:bg-gray-100"
+              onClick={() => setSelectedAppointment(appointment)}
+            >
               <td className="border border-gray-300 px-4 py-2">
                 {new Date(appointment.date_time).toLocaleString()}
               </td>

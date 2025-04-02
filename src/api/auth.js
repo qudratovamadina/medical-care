@@ -18,6 +18,21 @@ export const getUserAPI = async () => {
   }
 };
 
+export const getUserByIdAPI = async (userId) => {
+  try {
+    const { data, error } = await supabase.auth.admin.getUserById(userId);
+
+    if (error) {
+      throw error;
+    }
+
+    return data;
+  } catch (error) {
+    console.error("Error getting user by ID:", error);
+    return null;
+  }
+};
+
 const updateAppointmentsWithUserId = async (email, userId, role) => {
   const updateField = role === "doctor" ? "doctor_id" : "patient_id";
 
@@ -133,3 +148,4 @@ export const updateUserAPI = async (updatedUserData) => {
     return null;
   }
 };
+
