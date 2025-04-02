@@ -16,21 +16,32 @@ import { useNotifications } from "../provider/NotificationProvider";
 import { doctorIMG, patientIMG } from "./utils/constants";
 import { signOutAPI } from "../api/auth";
 import { NavLink, useNavigate } from "react-router-dom";
+import { useEffect } from "react";
 
 export function TopNavbar({ toggleSidebar }) {
   const { user, role } = useAuth();
-  const { name, profile_img, specialty } = user.user_metadata;
+  const { name, profile_img, specialty } = user?.user_metadata || {};
   const { notifications } = useNotifications();
   const navigate = useNavigate();
+
+  useEffect(() => {
+    if (!user) {
+      navigate("/login");
+    }
+  }, [user, navigate]);
 
   const handleLogout = async () => {
     try {
       await signOutAPI();
-      navigate("/");
+      navigate("/login");
     } catch (error) {
       console.error("Failed to log out:", error);
     }
   };
+
+  if (!user) {
+    return null;
+  }
 
   return (
     <nav className="flex w-full items-center justify-between py-4">

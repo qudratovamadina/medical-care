@@ -24,6 +24,16 @@ const INITIAL_FORM_DATA = {
   dateOfBirth: "",
 };
 
+const INITIAL_ERRORS = {
+  email: "",
+  password: "",
+  name: "",
+  phone: "",
+  address: "",
+  dateOfBirth: "",
+  specialty: "",
+};
+
 const ROLE_OPTIONS = [
   { value: "patient", label: "Patient" },
   { value: "doctor", label: "Doctor" },
@@ -42,6 +52,7 @@ const SPECIALTY_OPTIONS = [
 
 export function Signup() {
   const [formData, setFormData] = useState(INITIAL_FORM_DATA);
+  const [errors, setErrors] = useState(INITIAL_ERRORS);
   const [passwordShown, setPasswordShown] = useState(false);
   const navigate = useNavigate();
 
@@ -49,12 +60,64 @@ export function Signup() {
 
   const handleChange = (field) => (value) => {
     setFormData((prev) => ({ ...prev, [field]: value }));
+    setErrors((prev) => ({ ...prev, [field]: "" })); // Clear field-specific errors
+  };
+
+  const validateForm = () => {
+    const newErrors = { ...INITIAL_ERRORS };
+    let isValid = true;
+
+    if (!formData.name) {
+      newErrors.name = "Full name is required.";
+      isValid = false;
+    }
+
+    if (!formData.email) {
+      newErrors.email = "Email is required.";
+      isValid = false;
+    } else if (!/\S+@\S+\.\S+/.test(formData.email)) {
+      newErrors.email = "Invalid email format.";
+      isValid = false;
+    }
+
+    if (!formData.password) {
+      newErrors.password = "Password is required.";
+      isValid = false;
+    } else if (formData.password.length < 6) {
+      newErrors.password = "Password must be at least 6 characters.";
+      isValid = false;
+    }
+
+    if (!formData.phone) {
+      newErrors.phone = "Phone number is required.";
+      isValid = false;
+    }
+
+    if (!formData.address) {
+      newErrors.address = "Address is required.";
+      isValid = false;
+    }
+
+    if (!formData.dateOfBirth) {
+      newErrors.dateOfBirth = "Date of birth is required.";
+      isValid = false;
+    }
+
+    if (formData.role === "doctor" && !formData.specialty) {
+      newErrors.specialty = "Specialty is required for doctors.";
+      isValid = false;
+    }
+
+    setErrors(newErrors);
+    return isValid;
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    const { role, specialty, status, ...userData } = formData;
+    if (!validateForm()) return;
+
+    const { role, specialty, ...userData } = formData;
     userData.role = role;
 
     if (role === "doctor") {
@@ -94,6 +157,7 @@ export function Signup() {
                 placeholder="John Doe"
                 value={formData.name}
                 onChange={handleChange("name")}
+                error={errors.name}
               />
               <FormField
                 id="email"
@@ -102,6 +166,7 @@ export function Signup() {
                 placeholder="you@example.com"
                 value={formData.email}
                 onChange={handleChange("email")}
+                error={errors.email}
               />
             </div>
             <FormField
@@ -111,6 +176,7 @@ export function Signup() {
               placeholder="********"
               value={formData.password}
               onChange={handleChange("password")}
+              error={errors.password}
               icon={
                 <i
                   onClick={togglePasswordVisibility}
@@ -132,6 +198,7 @@ export function Signup() {
                 placeholder="123-456-7890"
                 value={formData.phone}
                 onChange={handleChange("phone")}
+                error={errors.phone}
               />
               <FormField
                 id="address"
@@ -140,6 +207,7 @@ export function Signup() {
                 placeholder="123 Main St, City, Country"
                 value={formData.address}
                 onChange={handleChange("address")}
+                error={errors.address}
               />
             </div>
             <FormField
@@ -148,6 +216,7 @@ export function Signup() {
               type="date"
               value={formData.dateOfBirth}
               onChange={handleChange("dateOfBirth")}
+              error={errors.dateOfBirth}
             />
             <SelectField
               id="role"
@@ -157,15 +226,14 @@ export function Signup() {
               options={ROLE_OPTIONS}
             />
             {formData.role === "doctor" && (
-              <>
-                <SelectField
-                  id="specialty"
-                  label="Specialty"
-                  value={formData.specialty}
-                  onChange={handleChange("specialty")}
-                  options={SPECIALTY_OPTIONS}
-                />
-              </>
+              <SelectField
+                id="specialty"
+                label="Specialty"
+                value={formData.specialty}
+                onChange={handleChange("specialty")}
+                options={SPECIALTY_OPTIONS}
+                error={errors.specialty}
+              />
             )}
             <Button type="submit" color="white" size="lg" fullWidth>
               Sign Up
@@ -185,7 +253,7 @@ export function Signup() {
   );
 }
 
-const FormField = ({ id, label, type, placeholder, value, onChange, icon }) => (
+const FormField = ({ id, label, type, placeholder, value, onChange, icon, error }) => (
   <div className="space-y-1">
     <label htmlFor={id} className="block text-sm font-medium text-white">
       {label}
@@ -198,23 +266,25 @@ const FormField = ({ id, label, type, placeholder, value, onChange, icon }) => (
       onChange={(e) => onChange(e.target.value)}
       required
       icon={icon}
-      className="w-full"
+      className={`w-full ${error ? "border-red-500" : ""}`}
     />
+    {error && <Typography color="red" className="text-sm">{error}</Typography>}
   </div>
 );
 
-const SelectField = ({ id, label, value, onChange, options }) => (
+const SelectField = ({ id, label, value, onChange, options, error }) => (
   <div className="space-y-1">
     <label htmlFor={id} className="block text-sm font-medium text-white">
       {label}
     </label>
-    <Select id={id} value={value} onChange={onChange} className="w-full">
+    <Select id={id} value={value} onChange={onChange} className={`w-full ${error ? "border-red-500" : ""}`}>
       {options.map((option) => (
         <Option key={option.value} value={option.value}>
           {option.label}
         </Option>
       ))}
     </Select>
+    {error && <Typography color="red" className="text-sm">{error}</Typography>}
   </div>
 );
 

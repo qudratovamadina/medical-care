@@ -95,26 +95,6 @@ export const getAppointmentsByPatientIdAPI = async (
   };
 };
 
-// Update appointment details
-export const updateAppointmentAsPatientAPI = async ({
-  appointmentId,
-  paymentStatus,
-  status,
-}) => {
-  const { data, error } = await supabase
-    .from("appointments")
-    .update({ payment_status: paymentStatus, status })
-    .eq("id", appointmentId)
-    .select()
-    .single();
-
-  if (error) {
-    console.error("Error updating appointment:", error);
-    return null;
-  }
-  return data;
-};
-
 // Fetch notifications for the current user
 export const getNotificationsByCurrentUserAPI = async (userId) => {
   if (!userId) return [];
@@ -134,57 +114,4 @@ export const createNotificationAPI = async (userId, message, status) => {
     return null;
   }
   return data;
-};
-
-// Fetch payments with doctor information
-export const getPaymentsByPatientIdAPI = async (patientId) => {
-  const payments = await fetchFromSupabase("payments", [
-    ["patient_id", patientId],
-  ]);
-  if (!payments.length) return [];
-
-  const users = await fetchUsers();
-  const doctorMap = new Map(users.map((user) => [user.id, user.user_metadata]));
-
-  return payments.map((payment) => ({
-    ...payment,
-    name: doctorMap.get(payment.doctor_id)?.name || "Unknown",
-    profile_img: doctorMap.get(payment.doctor_id)?.profile_img || "",
-  }));
-};
-
-// Create a payment record
-export const createPaymentAPI = async (paymentData) => {
-  const { data, error } = await supabase
-    .from("payments")
-    .insert([paymentData])
-    .select()
-    .single();
-
-  if (error) {
-    console.error("Error creating payment:", error);
-    return null;
-  }
-  return data;
-};
-
-// Fetch latest payments for a patient
-export const getLatestPaymentsByPatientIdAPI = async (patientId) => {
-  const latestPayments = await fetchFromSupabase(
-    "payments",
-    [["patient_id", patientId]],
-    { order: { column: "created_at", ascending: false }, limit: 10 },
-  );
-
-  if (!latestPayments.length) return [];
-
-  const users = await fetchUsers();
-  const userMap = new Map(
-    users.map((user) => [user.id, user.user_metadata?.name]),
-  );
-
-  return latestPayments.map((payment) => ({
-    ...payment,
-    name: userMap.get(payment.doctor_id) || "Unknown",
-  }));
 };

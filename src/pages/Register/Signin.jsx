@@ -10,23 +10,56 @@ import RegisterHeader from "../../components/landing/RegisterHeader";
 export function Signin() {
   const [formData, setFormData] = useState({ email: "", password: "" });
   const [passwordShown, setPasswordShown] = useState(false);
+  const [errors, setErrors] = useState({ email: "", password: "", apiError: "" });
   const navigate = useNavigate();
 
   const togglePasswordVisibility = () => setPasswordShown((prev) => !prev);
 
   const handleChange = (field, value) => {
     setFormData((prev) => ({ ...prev, [field]: value }));
+    setErrors((prev) => ({ ...prev, [field]: "" })); // Clear field-specific errors
+  };
+
+  const validateForm = () => {
+    let isValid = true;
+    const newErrors = { email: "", password: "" };
+
+    if (!formData.email) {
+      newErrors.email = "Email is required.";
+      isValid = false;
+    } else if (!/\S+@\S+\.\S+/.test(formData.email)) {
+      newErrors.email = "Invalid email format.";
+      isValid = false;
+    }
+
+    if (!formData.password) {
+      newErrors.password = "Password is required.";
+      isValid = false;
+    }
+
+    setErrors(newErrors);
+    return isValid;
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    if (!validateForm()) return;
+
     try {
       const response = await signInAPI(formData);
-      if (response.user.aud) {
+      if (response.user?.aud) {
         navigate("/dashboard");
+      } else {
+        setErrors((prev) => ({
+          ...prev,
+          apiError: "Invalid email or password. Please try again.",
+        }));
       }
     } catch (error) {
-      console.error("Error during login:", error);
+      setErrors((prev) => ({
+        ...prev,
+        apiError: "An error occurred during login. Please try again later.",
+      }));
     }
   };
 
@@ -51,6 +84,7 @@ export function Signin() {
               placeholder="Enter your email"
               value={formData.email}
               onChange={(value) => handleChange("email", value)}
+              error={errors.email}
             />
             <FormField
               id="password"
@@ -59,6 +93,7 @@ export function Signin() {
               placeholder="Enter your password"
               value={formData.password}
               onChange={(value) => handleChange("password", value)}
+              error={errors.password}
               icon={
                 <button
                   type="button"
@@ -73,6 +108,11 @@ export function Signin() {
                 </button>
               }
             />
+            {errors.apiError && (
+              <Typography color="red" className="text-center">
+                {errors.apiError}
+              </Typography>
+            )}
             <Button
               type="submit"
               color="white"
@@ -96,7 +136,7 @@ export function Signin() {
   );
 }
 
-const FormField = ({ id, label, type, placeholder, value, onChange, icon }) => (
+const FormField = ({ id, label, type, placeholder, value, onChange, icon, error }) => (
   <div className="relative space-y-1">
     <label htmlFor={id} className="block text-sm font-medium text-white">
       {label}
@@ -108,9 +148,12 @@ const FormField = ({ id, label, type, placeholder, value, onChange, icon }) => (
       value={value}
       onChange={(e) => onChange(e.target.value)}
       required
-      className="w-full border border-gray-600 bg-[#858C9C] px-3 py-2 text-white focus:border-blue-500 focus:outline-none"
+      className={`w-full border px-3 py-2 text-white focus:outline-none ${
+        error ? "border-red-500 focus:border-red-500" : "border-gray-600 focus:border-blue-500"
+      }`}
     />
     {icon}
+    {error && <Typography color="red" className="text-sm">{error}</Typography>}
   </div>
 );
 

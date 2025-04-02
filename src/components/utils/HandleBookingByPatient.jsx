@@ -12,58 +12,27 @@ import {
 } from "@material-tailwind/react";
 import { XMarkIcon } from "@heroicons/react/24/outline";
 import { PlusIcon } from "lucide-react";
-import {
-  createNotificationAPI,
-  updateAppointmentAsPatientAPI,
-  createPaymentAPI,
-} from "../../api/patient";
+import { createNotificationAPI } from "../../api/patient";
 
 export function HandleBookingByPatient({
-  patientId,
   patientName,
-  doctorName,
   doctorId,
   dateTime,
-  paymentStatus,
   status,
-  appointmentId,
-  amount, // 🟢 Ensure this is passed as a prop
 }) {
   const [open, setOpen] = useState(false);
   const [loading, setLoading] = useState(false);
   const [selectedStatus, setSelectedStatus] = useState(status);
-  const [selectedPaymentStatus, setSelectedPaymentStatus] =
-    useState(paymentStatus);
-  const [paymentMethod, setPaymentMethod] = useState(""); // Stores payment method
 
   const handleOpen = () => setOpen(!open);
 
   const handleUpdate = async () => {
     setLoading(true);
     try {
-      // Update appointment status & payment status
-      await updateAppointmentAsPatientAPI({
-        appointmentId,
-        paymentStatus: selectedPaymentStatus,
-        status: selectedStatus,
-      });
-
-      // If payment is marked as paid, create a payment record
-      if (selectedPaymentStatus === "paid") {
-        await createPaymentAPI({
-          appointment_id: appointmentId,
-          patient_id: patientId,
-          doctor_id: doctorId,
-          amount, // 🟢 Include the amount
-          status: "paid",
-          payment_method: paymentMethod || "unknown",
-        });
-      }
-
-      // Notify doctor about the payment
+      // Notify doctor about the update
       await createNotificationAPI(
         doctorId,
-        `${patientName} has successfully made the payment for their appointment.`,
+        `${patientName} updated their appointment status.`,
         "confirmed",
       );
 
@@ -93,8 +62,7 @@ export function HandleBookingByPatient({
             Update Appointment
           </Typography>
           <Typography className="mt-1 font-normal text-gray-600">
-            You can mark this appointment as completed and update the payment
-            status.
+            Update the status of your appointment.
           </Typography>
           <IconButton
             size="sm"
@@ -112,28 +80,6 @@ export function HandleBookingByPatient({
           <Typography variant="h6" color="blue-gray">
             Date & Time: {new Date(dateTime).toLocaleString()}
           </Typography>
-          <Typography variant="h6" color="blue-gray">
-            Amount: ${amount} {/* 🟢 Display amount */}
-          </Typography>
-          <Select
-            label="Payment Status"
-            value={selectedPaymentStatus}
-            onChange={(value) => setSelectedPaymentStatus(value)}
-          >
-            <Option value="paid">Paid</Option>
-            <Option value="unpaid">Unpaid</Option>
-          </Select>
-          {selectedPaymentStatus === "paid" && (
-            <Select
-              label="Payment Method"
-              value={paymentMethod}
-              onChange={(value) => setPaymentMethod(value)}
-            >
-              <Option value="cash">Cash</Option>
-              <Option value="credit_card">Credit Card</Option>
-              <Option value="online">Online Payment</Option>
-            </Select>
-          )}
           <Select
             label="Appointment Status"
             value={selectedStatus}

@@ -42,7 +42,6 @@ export const signInAPI = async ({ email, password }) => {
       throw error;
     }
 
-    // Update appointments after signing in
     const userId = user?.user?.id;
     const role = user?.user?.user_metadata?.role;
 
@@ -53,7 +52,7 @@ export const signInAPI = async ({ email, password }) => {
     return user;
   } catch (error) {
     console.error("Error during sign-in:", error);
-    return null;
+    return error;
   }
 };
 
@@ -81,7 +80,6 @@ export const signUpAPI = async ({
       throw error;
     }
 
-    // Update appointments after signing up
     const userId = user?.user?.id;
     if (userId) {
       await updateAppointmentsWithUserId(email, userId, role);

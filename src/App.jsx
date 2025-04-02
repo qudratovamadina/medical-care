@@ -8,7 +8,6 @@ import Sidebar from "./components/Sidebar";
 import BookAppointments from "./pages/BookAppointments";
 import MyAppointments from "./pages/MyAppointments";
 import Notifications from "./pages/Notifications";
-import Payments from "./pages/Payments";
 import Profile from "./pages/Profile";
 import UserDashboard from "./pages/UserDashboard";
 
@@ -44,14 +43,6 @@ const App = () => {
                 />
               ))}
             </Route>
-            <Route
-              path="/admin-dashboard"
-              element={
-                <ProtectedRoute allowedRoles={["admin"]}>
-                  <Payments />
-                </ProtectedRoute>
-              }
-            />
           </Routes>
         </Router>
       </NotificationProvider>
@@ -85,7 +76,6 @@ const dashboardRoutes = [
   { path: "book-appointment", component: BookAppointments },
   { path: "appointments", component: MyAppointments },
   { path: "notifications", component: Notifications },
-  { path: "payments", component: Payments },
   { path: "profile", component: Profile },
 ];
 

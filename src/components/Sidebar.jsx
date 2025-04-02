@@ -72,11 +72,6 @@ function Sidebar({ isOpen, toggleSidebar }) {
         />
       ),
     },
-    {
-      to: "/payments",
-      label: "Payments",
-      icon: <CreditCardIcon className="h-8 w-8" />,
-    },
     ...(role === "doctor"
       ? [
           {
