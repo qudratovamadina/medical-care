@@ -46,7 +46,7 @@ export function TopNavbar({ toggleSidebar }) {
   return (
     <nav className="flex w-full items-center justify-between py-4">
       <SearchBar />
-      <div className="flex flex-row-reverse items-center gap-6 lg:flex-row">
+      <div className="flex flex-row-reverse items-center gap-6 2xl:flex-row">
         {role === "doctor" && (
           <NavLink to="/profile">
             <Settings size={24} />
@@ -65,14 +65,14 @@ export function TopNavbar({ toggleSidebar }) {
       <MenuIcon
         onClick={toggleSidebar}
         size={28}
-        className="hover:rounded hover:bg-blue-300 hover:p-1 lg:hidden"
+        className="hover:rounded hover:bg-blue-300 hover:p-1 2xl:hidden"
       />
     </nav>
   );
 }
 
 const SearchBar = () => (
-  <div className="invisible hidden w-2/5 items-center gap-2 rounded-xl bg-[#EBEEF3] pl-4 lg:flex">
+  <div className="invisible hidden w-2/5 items-center gap-2 rounded-xl bg-[#EBEEF3] pl-4 2xl:flex">
     <Search size={16} />
     <input
       type="text"

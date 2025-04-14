@@ -20,8 +20,8 @@ export function DoctorCard({
   profileIMG,
 }) {
   return (
-    <Card className="lg:w-64">
-      <CardHeader floated={false} className="h-[80%] shadow-sm lg:max-h-48">
+    <Card className="2xl:w-full">
+      <CardHeader floated={false} className="h-[80%] shadow-sm 2xl:max-h-72">
         <img
           src={profileIMG || defaultIMG}
           alt={`${name}'s profile`}

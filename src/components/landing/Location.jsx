@@ -6,7 +6,7 @@ const Location = () => {
       id="location"
       className="flex w-full flex-col items-center gap-12 pb-12 pt-32"
     >
-      <div className="relative flex h-60 w-full flex-col items-center justify-center px-4 text-center lg:p-0">
+      <div className="relative flex h-60 w-full flex-col items-center justify-center px-4 text-center 2xl:p-0">
         <img
           src="./faq-bg.jpg"
           alt=""
@@ -22,8 +22,8 @@ const Location = () => {
           </p>
         </div>
       </div>
-      <div className="container flex flex-col items-center gap-8 px-4 lg:flex-row lg:px-0">
-        <div className="flex flex-col lg:w-1/2">
+      <div className="container flex flex-col items-center gap-8 px-4 2xl:flex-row 2xl:px-0">
+        <div className="flex flex-col 2xl:w-1/2">
           <div className="mb-8">
             <h2 className="text-3xl font-bold text-gray-900">Medical Center</h2>
             <p className="mt-2 text-gray-600">
@@ -68,7 +68,7 @@ const Location = () => {
         </div>
 
         {/* Map */}
-        <div className="h-80 w-full lg:w-1/2">
+        <div className="h-80 w-full 2xl:w-1/2">
           <iframe
             className="h-full w-full rounded-lg shadow-lg"
             src="https://www.google.com/maps/embed?pb=!1m17!1m12!1m3!1d2995.5711450857557!2d69.29144707624468!3d41.33993797130583!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m2!1m1!2zNDHCsDIwJzIzLjgiTiA2OcKwMTcnMzguNSJF!5e0!3m2!1sen!2s!4v1743164480921!5m2!1sen!2s"

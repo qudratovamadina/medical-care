@@ -21,7 +21,7 @@ const FrequentlyAskedQuestions = () => {
 
   return (
     <section id="faq" className="flex w-full flex-col items-center">
-      <div className="relative flex h-60 w-full flex-col items-center justify-center px-4 text-center lg:px-0">
+      <div className="relative flex h-60 w-full flex-col items-center justify-center px-4 text-center 2xl:px-0">
         <img
           src="./faq-bg.jpg"
           alt=""
@@ -37,7 +37,7 @@ const FrequentlyAskedQuestions = () => {
           </p>
         </div>
       </div>
-      <div className="container space-y-2 px-8 py-12 lg:px-0">
+      <div className="container space-y-2 px-8 py-12 2xl:px-0">
         {faqs.map((faq, index) => (
           <details key={index} className="group rounded-lg py-5">
             <summary className="flex w-fit cursor-pointer items-center justify-center gap-6 text-lg font-medium text-gray-900 group-open:text-purple-600">

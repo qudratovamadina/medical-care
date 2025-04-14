@@ -30,7 +30,7 @@ const UserDashboard = () => {
 };
 
 const DashboardContent = ({ userId, role }) => (
-  <div className="flex h-full w-full flex-col rounded-xl lg:w-3/4">
+  <div className="flex h-full w-full flex-col rounded-xl 2xl:w-3/4">
     <Banner />
     <AppointmentCards userId={userId} role={role} />
     <AppointmentsTable userId={userId} role={role} />
@@ -162,7 +162,7 @@ const AppointmentsTable = ({ userId, role }) => {
 };
 
 const SidebarPlaceholder = () => (
-  <div className="hidden h-full w-1/4 rounded-xl bg-[#F5F5F5] lg:flex"></div>
+  <div className="hidden h-full w-1/4 rounded-xl bg-[#F5F5F5] 2xl:flex"></div>
 );
 
 export default UserDashboard;

@@ -13,16 +13,18 @@ const Navbar = () => {
   return (
     <div className="flex w-full items-center justify-center bg-white">
       <nav className="container flex h-20 w-full items-center justify-between bg-white bg-cover bg-center px-6 md:px-0">
-        <a href="/">
+        <NavLink to="/">
           <img src="./logo.svg" alt="Medical Care Logo" className="h-12" />
-        </a>
+        </NavLink>
         <ul
-          className={`absolute left-0 top-20 z-50 w-full flex-col items-center gap-4 bg-white py-4 shadow-md transition-transform md:static md:flex md:flex-row md:gap-8 md:shadow-none lg:w-fit ${
+          className={`absolute left-0 top-20 z-50 w-full flex-col items-center gap-4 bg-white py-4 shadow-md transition-transform md:static md:flex md:flex-row md:gap-8 md:shadow-none 2xl:w-fit ${
             isMenuOpen ? "flex" : "hidden"
           }`}
         >
+          <li className="cursor-pointer text-lg text-gray-700 hover:text-[#31A02D]">
+            <NavLink to="/">Home</NavLink>
+          </li>
           {[
-            { name: "Home", href: "#home" },
             { name: "FAQ", href: "#faq" },
             { name: "Location", href: "#location" },
           ].map((item) => (
@@ -30,7 +32,9 @@ const Navbar = () => {
               key={item.name}
               className="cursor-pointer text-lg text-gray-700 hover:text-[#31A02D]"
             >
-              <a href={item.href}>{item.name}</a>
+              <a href={item.href} className="">
+                {item.name}
+              </a>
             </li>
           ))}
           <li>

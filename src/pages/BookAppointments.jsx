@@ -46,7 +46,7 @@ const BookAppointments = () => {
           onSelect={handleFilter}
         />
       </div>
-      <div className="grid h-fit w-full grid-cols-1 gap-4 overflow-hidden overflow-y-scroll pb-4 lg:grid-cols-4">
+      <div className="grid h-fit w-full grid-cols-1 gap-4 overflow-hidden overflow-y-scroll pb-4 md:grid-cols-3 2xl:grid-cols-4">
         {filteredDoctors.map((doctor) => (
           <DoctorCard
             key={doctor.id}

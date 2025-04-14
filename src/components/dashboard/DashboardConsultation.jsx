@@ -3,14 +3,14 @@ import ConsultationForm from "../consultation/ConsultationForm";
 const DashboardConsultation = ({ selectedAppointment }) => {
   if (!selectedAppointment) {
     return (
-      <div className="hidden h-full w-1/4 items-center justify-center rounded-xl bg-[#F5F5F5] text-gray-500 lg:flex">
+      <div className="hidden h-full w-1/4 items-center justify-center rounded-xl bg-[#F5F5F5] text-gray-500 2xl:flex">
         Select an appointment to add consultation
       </div>
     );
   }
 
   return (
-    <div className="hidden h-full w-1/4 overflow-y-auto rounded-xl bg-[#F5F5F5] p-4 lg:flex">
+    <div className="hidden h-full w-1/4 overflow-y-auto rounded-xl bg-[#F5F5F5] p-4 2xl:flex">
       <ConsultationForm
         appointmentId={selectedAppointment.id}
         doctorId={selectedAppointment.doctor_id}

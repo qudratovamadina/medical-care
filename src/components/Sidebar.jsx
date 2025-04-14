@@ -96,7 +96,7 @@ function Sidebar({ isOpen, toggleSidebar }) {
 
   return (
     <div
-      className={`fixed inset-y-0 left-0 z-50 transform bg-[#858C9C] shadow-xl transition-transform lg:static lg:h-full lg:transform-none ${
+      className={`fixed inset-y-0 left-0 z-50 transform bg-[#858C9C] shadow-xl transition-transform 2xl:static 2xl:h-full 2xl:transform-none ${
         isOpen ? "translate-x-0" : "-translate-x-full"
       }`}
     >
@@ -106,7 +106,7 @@ function Sidebar({ isOpen, toggleSidebar }) {
             Sidebar
           </Typography>
           <button
-            className="text-white lg:hidden"
+            className="text-white 2xl:hidden"
             onClick={toggleSidebar}
             aria-label="Close Sidebar"
           >

@@ -138,7 +138,7 @@ export function Signup() {
     <div className="flex min-h-screen flex-col items-center bg-gray-100">
       <Navbar />
       <RegisterHeader title="Create your account" />
-      <section className="flex w-full flex-col items-center justify-center px-6 py-12 lg:px-8">
+      <section className="flex w-full flex-col items-center justify-center px-6 py-12 2xl:px-8">
         <div className="w-full min-w-fit max-w-md rounded-lg bg-[#858C9C] p-8 shadow-md">
           <Typography
             variant="h3"
@@ -149,7 +149,7 @@ export function Signup() {
           </Typography>
 
           <form onSubmit={handleSubmit} className="space-y-6">
-            <div className="flex flex-col gap-4 lg:flex-row">
+            <div className="flex flex-col gap-4 2xl:flex-row">
               <FormField
                 id="name"
                 label="Full Name"
@@ -190,7 +190,7 @@ export function Signup() {
                 </i>
               }
             />
-            <div className="flex flex-col gap-4 lg:flex-row">
+            <div className="flex flex-col gap-4 2xl:flex-row">
               <FormField
                 id="phone"
                 label="Phone Number"
@@ -253,7 +253,16 @@ export function Signup() {
   );
 }
 
-const FormField = ({ id, label, type, placeholder, value, onChange, icon, error }) => (
+const FormField = ({
+  id,
+  label,
+  type,
+  placeholder,
+  value,
+  onChange,
+  icon,
+  error,
+}) => (
   <div className="space-y-1">
     <label htmlFor={id} className="block text-sm font-medium text-white">
       {label}
@@ -268,7 +277,11 @@ const FormField = ({ id, label, type, placeholder, value, onChange, icon, error 
       icon={icon}
       className={`w-full ${error ? "border-red-500" : ""}`}
     />
-    {error && <Typography color="red" className="text-sm">{error}</Typography>}
+    {error && (
+      <Typography color="red" className="text-sm">
+        {error}
+      </Typography>
+    )}
   </div>
 );
 
@@ -277,14 +290,23 @@ const SelectField = ({ id, label, value, onChange, options, error }) => (
     <label htmlFor={id} className="block text-sm font-medium text-white">
       {label}
     </label>
-    <Select id={id} value={value} onChange={onChange} className={`w-full ${error ? "border-red-500" : ""}`}>
+    <Select
+      id={id}
+      value={value}
+      onChange={onChange}
+      className={`w-full ${error ? "border-red-500" : ""}`}
+    >
       {options.map((option) => (
         <Option key={option.value} value={option.value}>
           {option.label}
         </Option>
       ))}
     </Select>
-    {error && <Typography color="red" className="text-sm">{error}</Typography>}
+    {error && (
+      <Typography color="red" className="text-sm">
+        {error}
+      </Typography>
+    )}
   </div>
 );
 

@@ -10,7 +10,11 @@ import RegisterHeader from "../../components/landing/RegisterHeader";
 export function Signin() {
   const [formData, setFormData] = useState({ email: "", password: "" });
   const [passwordShown, setPasswordShown] = useState(false);
-  const [errors, setErrors] = useState({ email: "", password: "", apiError: "" });
+  const [errors, setErrors] = useState({
+    email: "",
+    password: "",
+    apiError: "",
+  });
   const navigate = useNavigate();
 
   const togglePasswordVisibility = () => setPasswordShown((prev) => !prev);
@@ -67,7 +71,7 @@ export function Signin() {
     <div className="flex min-h-screen flex-col items-center bg-gray-100">
       <Navbar />
       <RegisterHeader title="Log in to your account and access your data easily" />
-      <section className="flex w-full flex-col items-center justify-center px-6 py-12 lg:px-8">
+      <section className="flex w-full flex-col items-center justify-center px-6 py-12 2xl:px-8">
         <div className="w-full max-w-md rounded-lg bg-[#858C9C] p-8 shadow-md">
           <Typography
             variant="h3"
@@ -136,7 +140,16 @@ export function Signin() {
   );
 }
 
-const FormField = ({ id, label, type, placeholder, value, onChange, icon, error }) => (
+const FormField = ({
+  id,
+  label,
+  type,
+  placeholder,
+  value,
+  onChange,
+  icon,
+  error,
+}) => (
   <div className="relative space-y-1">
     <label htmlFor={id} className="block text-sm font-medium text-white">
       {label}
@@ -149,11 +162,17 @@ const FormField = ({ id, label, type, placeholder, value, onChange, icon, error 
       onChange={(e) => onChange(e.target.value)}
       required
       className={`w-full border px-3 py-2 text-white focus:outline-none ${
-        error ? "border-red-500 focus:border-red-500" : "border-gray-600 focus:border-blue-500"
+        error
+          ? "border-red-500 focus:border-red-500"
+          : "border-gray-600 focus:border-blue-500"
       }`}
     />
     {icon}
-    {error && <Typography color="red" className="text-sm">{error}</Typography>}
+    {error && (
+      <Typography color="red" className="text-sm">
+        {error}
+      </Typography>
+    )}
   </div>
 );
 

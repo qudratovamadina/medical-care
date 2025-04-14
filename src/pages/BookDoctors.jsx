@@ -63,7 +63,7 @@ const BookDoctors = () => {
       <Navbar />
       <div className="flex w-full justify-center bg-gray-100">
         <div className="container flex h-dvh flex-col gap-12 rounded-lg p-6">
-          <div className="flex w-full flex-col items-end justify-between gap-4 lg:flex-row lg:items-center">
+          <div className="flex w-full flex-col items-end justify-between gap-4 2xl:flex-row 2xl:items-center">
             <input
               type="text"
               placeholder="Search by name"
@@ -80,7 +80,7 @@ const BookDoctors = () => {
               onSelect={handleFilter}
             />
           </div>
-          <div className="grid h-fit w-full grid-cols-1 gap-4 overflow-hidden overflow-y-scroll pb-4 lg:grid-cols-4">
+          <div className="grid h-fit w-full grid-cols-1 gap-4 overflow-hidden overflow-y-scroll pb-4 lg:grid-cols-2 2xl:grid-cols-4">
             {filteredDoctors.map((doctor) => (
               <DoctorCard
                 key={doctor.id}

@@ -59,7 +59,7 @@ const AppointmentCard = ({ fullName, appointmentDate, status }) => (
       {status}
     </span>
     <Button className="mt-2 bg-[#858C9C] py-2 text-xs">
-      <NavLink to="appointments">View Details</NavLink>
+      <NavLink to="/appointments">View Details</NavLink>
     </Button>
   </Card>
 );
