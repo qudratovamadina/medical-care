@@ -112,31 +112,25 @@ const AppointmentsTable = ({ userId, role }) => {
       <table className="w-full table-auto border-collapse border border-gray-300">
         <thead>
           <tr className="bg-gray-100">
+            <th className="border border-gray-300 px-4 py-2 text-left">#</th>
             <th className="border border-gray-300 px-4 py-2 text-left">Date</th>
             {role === "patient" ? (
-              <th className="border border-gray-300 px-4 py-2 text-left">
-                Doctor
-              </th>
+              <th className="border border-gray-300 px-4 py-2 text-left">Doctor</th>
             ) : (
-              <th className="border border-gray-300 px-4 py-2 text-left">
-                Patient
-              </th>
+              <th className="border border-gray-300 px-4 py-2 text-left">Patient</th>
             )}
-            <th className="border border-gray-300 px-4 py-2 text-left">
-              Phone
-            </th>
-            <th className="border border-gray-300 px-4 py-2 text-left">
-              Status
-            </th>
+            <th className="border border-gray-300 px-4 py-2 text-left">Phone</th>
+            <th className="border border-gray-300 px-4 py-2 text-left">Status</th>
           </tr>
         </thead>
         <tbody>
-          {appointments.map((appointment) => (
+          {appointments.map((appointment, index) => (
             <tr
               key={appointment.id}
               className="cursor-pointer hover:bg-gray-100"
               onClick={() => setSelectedAppointment(appointment)}
             >
+              <td className="border border-gray-300 px-4 py-2">{index + 1}</td>
               <td className="border border-gray-300 px-4 py-2">
                 {new Date(appointment.date_time).toLocaleString()}
               </td>

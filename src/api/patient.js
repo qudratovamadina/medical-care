@@ -55,7 +55,6 @@ export const createAppointmentAPI = async (appointmentData) => {
   return data;
 };
 
-// Fetch appointments for a patient with pagination
 export const getAppointmentsByPatientIdAPI = async (
   patientId,
   page = 1,
@@ -68,6 +67,7 @@ export const getAppointmentsByPatientIdAPI = async (
     .from("appointments")
     .select("*")
     .eq("patient_id", patientId)
+    .order("date_time", { ascending: true }) // Order by date_time in ascending order
     .range(from, to);
 
   if (error || !appointments?.length) {

@@ -51,6 +51,7 @@ export const getAppointmentsByDoctorIdAPI = async (
     .from("appointments")
     .select("*")
     .eq("doctor_id", doctorId)
+    .order("date_time", { ascending: true }) // Order by date_time in ascending order
     .range(from, to);
 
   if (appointmentsError || !appointments?.length) {
