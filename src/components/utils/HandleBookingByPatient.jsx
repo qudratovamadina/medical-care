@@ -43,7 +43,7 @@ export function HandleBookingByPatient({
       await createNotificationAPI(
         doctorId,
         `${patientName} updated their appointment status to ${selectedStatus}.`,
-        selectedStatus
+        selectedStatus,
       );
 
       setOpen(false);
@@ -66,6 +66,7 @@ export function HandleBookingByPatient({
         color="gray"
         className="ml-auto flex w-full justify-center gap-3 md:max-w-fit"
         onClick={handleOpen}
+        disabled={status == "cancelled"}
       >
         <PlusIcon strokeWidth={3} className="h-4 w-4" />
         Update
