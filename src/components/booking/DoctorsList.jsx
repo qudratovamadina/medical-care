@@ -23,7 +23,7 @@ const TABS = [
   { label: "All", value: "all" },
   { label: "Confirmed", value: "confirmed" },
   { label: "Completed", value: "completed" },
-  { label: "Canceled", value: "canceled" },
+  { label: "Cancelled", value: "cancelled" },
   { label: "Pending", value: "pending" },
 ];
 

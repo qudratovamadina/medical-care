@@ -95,10 +95,14 @@ export const getNotificationsByCurrentUserAPI = async (userId) => {
 };
 
 // Confirm an appointment with updated status and time
-export const confirmAppointmentAPI = async ({ appointmentId, dateTime }) => {
+export const confirmAppointmentAPI = async ({
+  appointmentId,
+  dateTime,
+  status,
+}) => {
   const { data, error } = await supabase
     .from("appointments")
-    .update({ status: "confirmed", date_time: dateTime })
+    .update({ status: status, date_time: dateTime })
     .eq("id", appointmentId)
     .select()
     .single();

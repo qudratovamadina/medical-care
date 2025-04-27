@@ -13,7 +13,7 @@ import { XMarkIcon } from "@heroicons/react/24/outline";
 import { createAppointmentAPI, createNotificationAPI } from "../../api/patient";
 import { useAuth } from "../../provider/AuthProvider";
 
-export function BookDoctorModal({ patientId, doctorId }) {
+export function BookDoctorModal({ patientId, doctorId, disabled, buttonText }) {
   const { user } = useAuth();
   const [open, setOpen] = useState(false);
   const [formData, setFormData] = useState({
@@ -59,8 +59,12 @@ export function BookDoctorModal({ patientId, doctorId }) {
 
   return (
     <>
-      <Button onClick={handleOpen} className="w-full bg-[#858C9C]">
-        Book
+      <Button
+        disabled={disabled}
+        onClick={handleOpen}
+        className="w-full bg-[#858C9C]"
+      >
+        {buttonText}
       </Button>
       <Dialog size="sm" open={open} handler={handleOpen} className="p-4">
         <DialogHeader className="relative">

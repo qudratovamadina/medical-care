@@ -20,7 +20,7 @@ import { getAppointmentsByDoctorIdAPI } from "../../api/doctor";
 import { HandleBookingModal } from "../utils/HandleBookingModal";
 import ConsultationForm from "../consultation/ConsultationForm";
 
-const TABS = ["all", "confirmed", "pending", "completed", "canceled"];
+const TABS = ["all", "confirmed", "pending", "completed", "cancelled"];
 const TABLE_HEAD = [
   "#",
   "Name",

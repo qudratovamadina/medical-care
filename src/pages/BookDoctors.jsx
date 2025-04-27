@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Dropdown } from "../components/Dropdown";
-import { getDoctorsAPI } from "../api/patient";
+import { getAppointmentsByPatientIdAPI, getDoctorsAPI } from "../api/patient";
 import { useAuth } from "../provider/AuthProvider";
 import { DoctorCard } from "../components/booking/DoctorCard";
 import Footer from "../components/landing/Footer";
@@ -9,6 +9,7 @@ import Navbar from "../components/landing/Navbar";
 
 const BookDoctors = () => {
   const [doctors, setDoctors] = useState([]);
+  const [appointments, setAppointments] = useState([]);
   const [filteredDoctors, setFilteredDoctors] = useState([]);
   const [searchQuery, setSearchQuery] = useState("");
   const { user } = useAuth();
@@ -27,6 +28,21 @@ const BookDoctors = () => {
 
     fetchDoctors();
   }, []);
+
+  useEffect(() => {
+    const fetchAppointments = async () => {
+      try {
+        if (user && user.id) {
+          const response = await getAppointmentsByPatientIdAPI(user.id, 1, 100);
+          setAppointments(response?.appointments || []);
+        }
+      } catch (error) {
+        console.error("Error fetching appointments:", error);
+      }
+    };
+
+    fetchAppointments();
+  }, [user]);
 
   const handleFilter = (specialty) => {
     let filtered = doctors;
@@ -81,16 +97,24 @@ const BookDoctors = () => {
             />
           </div>
           <div className="grid h-fit w-full grid-cols-1 gap-4 overflow-hidden overflow-y-scroll pb-4 lg:grid-cols-2 2xl:grid-cols-4">
-            {filteredDoctors.map((doctor) => (
-              <DoctorCard
-                key={doctor.id}
-                id={doctor.id}
-                name={doctor.user_metadata.name}
-                profileIMG={doctor.user_metadata?.profile_img}
-                specialty={doctor.user_metadata.specialty}
-                onBook={() => handleBooking(doctor.id)}
-              />
-            ))}
+            {filteredDoctors.map((doctor) => {
+              const isAlreadyBooked = appointments.some(
+                (appointment) =>
+                  appointment.email == doctor.user_metadata.email,
+              );
+
+              return (
+                <DoctorCard
+                  key={doctor.id}
+                  id={doctor.id}
+                  name={doctor.user_metadata.name}
+                  profileIMG={doctor.user_metadata?.profile_img}
+                  specialty={doctor.user_metadata.specialty}
+                  disabled={isAlreadyBooked}
+                  buttonText={isAlreadyBooked ? "Already Booked" : "Book"}
+                />
+              );
+            })}
           </div>
         </div>
       </div>

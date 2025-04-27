@@ -14,10 +14,12 @@ const defaultIMG =
 export function DoctorCard({
   id,
   name,
-  specialty,
-  patientId,
-  patientName,
   profileIMG,
+  specialty,
+  patientName,
+  patientId,
+  disabled,
+  buttonText,
 }) {
   return (
     <Card className="2xl:w-full">
@@ -42,6 +44,8 @@ export function DoctorCard({
           doctorId={id}
           patientId={patientId}
           patientName={patientName}
+          disabled={disabled}
+          buttonText={buttonText}
         />
       </CardFooter>
     </Card>

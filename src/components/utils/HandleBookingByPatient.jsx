@@ -14,6 +14,7 @@ import { XMarkIcon } from "@heroicons/react/24/outline";
 import { PlusIcon } from "lucide-react";
 import { createNotificationAPI } from "../../api/patient";
 import DoctorFeedbackForm from "../booking/DoctorFeedbackForm";
+import { confirmAppointmentAPI } from "../../api/doctor";
 
 export function HandleBookingByPatient({
   patientName,
@@ -29,15 +30,20 @@ export function HandleBookingByPatient({
   const [selectedStatus, setSelectedStatus] = useState(status);
   const [feedbackOpen, setFeedbackOpen] = useState(false);
 
-  const handleOpen = () => setOpen(!open);
+  const handleOpen = () => setOpen((prev) => !prev);
 
   const handleUpdate = async () => {
     setLoading(true);
     try {
+      await confirmAppointmentAPI({
+        appointmentId,
+        status: selectedStatus,
+      });
+
       await createNotificationAPI(
         doctorId,
-        `${patientName} updated their appointment status.`,
-        "confirmed",
+        `${patientName} updated their appointment status to ${selectedStatus}.`,
+        selectedStatus
       );
 
       setOpen(false);
@@ -62,7 +68,7 @@ export function HandleBookingByPatient({
         onClick={handleOpen}
       >
         <PlusIcon strokeWidth={3} className="h-4 w-4" />
-        Manage Booking
+        Update
       </Button>
 
       <Dialog size="sm" open={open} handler={handleOpen} className="p-4">
@@ -96,6 +102,7 @@ export function HandleBookingByPatient({
             disabled={status === "completed"}
           >
             <Option value="completed">Completed</Option>
+            <Option value="cancelled">Cancelled</Option>
           </Select>
         </DialogBody>
         <DialogFooter>
